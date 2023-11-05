@@ -41,4 +41,11 @@
     <color name="Green">#2ECC71</color>
     <color name="DarkGreen">#05AA52</color>
 
+    <color name="LAB">#FF0000</color>
+    <color name="PS">#FF6565</color>
+    <color name="DS">#C10000</color>
+    <color name="TMA">#AD1457</color>
+    <color name="CAT">#7B241C</color>
+    <color name="FINAL">#FF000000</color>
+
 </resources>
