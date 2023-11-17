@@ -1,14 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CourseWiseFragment">
+    android:id="@+id/swipe_refresh_layout_course_wise"
+    tools:context=".fragment.CourseWiseFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Course Wise" />
 
-</FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/courseCardViewDegree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="8dp"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <EditText
+                android:id="@+id/editTextCourse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:hint="Select Course" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerAddedCourseLoad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextDegree"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:maxHeight="100dp"/>
+
+            <ListView
+                android:id="@+id/listView"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/editTextCourse"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCourseWiseActivities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/courseCardViewDegree"
+            android:layout_marginTop="10dp"
+            android:nestedScrollingEnabled="true" />
+
+        <LinearLayout
+            android:id="@+id/noCourseLinear"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="0dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/backIcon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/connectionLostText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:text="No Course Added"
+                android:textAlignment="center"
+                android:textColor="@color/DarkGray"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

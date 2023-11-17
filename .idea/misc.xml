@@ -1,5 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable-v24/curved_background_top.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable-v24/ic_add.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable-v24/ic_outline_assignment_red.xml" value="0.168" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/badge_background.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/card_color2.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/circle_border.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/curved_background.xml" value="0.1" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/curved_background_all.xml" value="0.168" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_add.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_custom_toggle.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_delete.xml" value="0.1385" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_error.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_final.xml" value="0.1385" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_final_2.xml" value="0.1385" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_labtest.xml" value="0.168" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_labtest_red.xml" value="0.168" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_labtest_white.xml" value="0.116" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_notifications.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_outline_info.xml" value="0.168" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_quiz.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/ic_round_menu.xml" value="0.168" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/nav_about.xml" value="0.1075" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/round_border.xml" value="0.168" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/drawable/rounded_button2.xml" value="0.16" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/actionbar.xml" value="0.264" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/actionbar_layout.xml" value="0.264" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/activity_about.xml" value="0.25416666666666665" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/activity_dashboard.xml" value="0.1287037037037037" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/activity_main.xml" value="0.1287037037037037" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/activity_notification.xml" value="0.25416666666666665" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/activity_profile.xml" value="0.25416666666666665" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/activity_settings.xml" value="0.264" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/add_new_course.xml" value="0.25416666666666665" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/badge_background.xml" value="0.253125" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/badge_layout.xml" value="0.4" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/fragment_course_wise.xml" value="0.2" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/fragment_my_calendar.xml" value="0.264" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/fragment_my_courses.xml" value="0.176" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/item_calendar.xml" value="0.264" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/item_calendar_icon.xml" value="0.25416666666666665" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/item_calender_icon.xml" value="0.253125" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/item_course.xml" value="0.253125" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/item_notification.xml" value="0.25416666666666665" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/item_programme.xml" value="0.25416666666666665" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/layout_calender_dialog.xml" value="0.253125" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/layout/nav_header.xml" value="0.14444444444444443" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/menu/main_menu.xml" value="0.253125" />
+        <entry key="..\:/ANDROID_STUDIO/OUSL_Smart_Activity_Diary-Shaleel/app/src/main/res/menu/nav_menu.xml" value="0.21224489795918366" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

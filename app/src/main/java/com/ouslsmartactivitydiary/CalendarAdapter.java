@@ -2,30 +2,90 @@ package com.ouslsmartactivitydiary;
 
 import static com.ouslsmartactivitydiary.CalendarItem.ACTIVITIES;
 import static com.ouslsmartactivitydiary.CalendarItem.CALENDAR;
+import static com.ouslsmartactivitydiary.CalendarItem.COURSE_WISE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.Timestamp;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CalendarAdapter extends RecyclerView.Adapter {
 
     Context context;
     List<CalendarItem> calendarItems;
-CalendarAdapter.OnItemClickListener onItemClickListener;
+    CalendarAdapter.OnItemClickListener onItemClickListener;
+
+    //ANIMATION RELATED VARIABLES
+    AlphaAnimation blinkAnimation;
+    Handler handler;
+    Runnable runnable;
+    Date currentDate;
+    boolean isHandlerRunning = false;
+    int count = 0;
+
+    public interface AdapterCallback {
+        void onRefresh(int type);
+    }
+
+    private AdapterCallback callback;
+
+    // Constructor to receive the callback
+    public CalendarAdapter() {
+
+    }
+
+    List<CourseItem> courseItemList;
 
     public CalendarAdapter(Context context, List<CalendarItem> calendarItems, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.calendarItems = calendarItems;
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public CalendarAdapter(Context context, List<CalendarItem> calendarItems, OnItemClickListener onItemClickListener, AdapterCallback callback) {
+        this.context = context;
+        this.calendarItems = calendarItems;
+        this.onItemClickListener = onItemClickListener;
+        this.callback = callback;
+    }
+
+    // sort the list by date
+    public void sortList(List<CalendarItem> calendarItems) {
+        Collections.sort(calendarItems, new Comparator<CalendarItem>() {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+            @Override
+            public int compare(CalendarItem o1, CalendarItem o2) {
+                try {
+                    Date date1 = dateFormat.parse(o1.getDate());
+                    Date date2 = dateFormat.parse(o2.getDate());
+                    return date1.compareTo(date2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
     }
 
 
@@ -37,6 +97,8 @@ CalendarAdapter.OnItemClickListener onItemClickListener;
                 return ACTIVITIES;
             case 2:
                 return CALENDAR;
+            case 3:
+                return COURSE_WISE;
             default:
                 return -1;
 
@@ -46,8 +108,13 @@ CalendarAdapter.OnItemClickListener onItemClickListener;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         switch (viewType) {
             case ACTIVITIES:
+                return new CalendarViewHolder(LayoutInflater.from(context).inflate(R.layout.item_calendar, parent, false));
+            case CALENDAR:
+                return new CalendarViewHolder(LayoutInflater.from(context).inflate(R.layout.item_calendar_icon, parent, false));
+            case COURSE_WISE:
                 return new CalendarViewHolder(LayoutInflater.from(context).inflate(R.layout.item_calendar, parent, false));
             default:
                 return null;
@@ -58,17 +125,45 @@ CalendarAdapter.OnItemClickListener onItemClickListener;
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
+        blinkAnimation = new AlphaAnimation(0.2f, 1.0f);
+        blinkAnimation.setDuration(1000); // Set the duration of each animation cycle (in milliseconds)
+        blinkAnimation.setRepeatCount(Animation.INFINITE); // Set the number of times to repeat (infinite in this case)
+        blinkAnimation.setRepeatMode(Animation.REVERSE); // Reverse the animation when repeating
+        handler = new Handler();
+
         switch (calendarItems.get(position).getViewType()) {
             case ACTIVITIES:
+                sortList(calendarItems);
                 ((CalendarViewHolder) holder).activityIcon.setImageResource(calendarItems.get(position).getActivityIcon());
 
                 //change the calendar activity card color
-                switch (calendarItems.get(position).getActivityIcon()){
-                    case R.drawable.ic_labtest:
+                switch (calendarItems.get(position).getCategory()){
+                    case "LAB":
                         ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.LAB));
                         break;
-                    case R.drawable.ic_outline_assignment:
+                    case "TMA":
                         ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.TMA));
+                        break;
+                    case "DS":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.DS));
+                        break;
+                    case "PS":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.PS));
+                        break;
+                    case "CAT":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.CAT));
+                        break;
+                    case "FINAL":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.FINAL));
+                        break;
+                    case "VIVA":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.VIVA));
+                        break;
+                    case "QUIZ":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.QUIZ));
+                        break;
+                    default:
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.DarkGray));
                         break;
                 }
 
@@ -80,9 +175,83 @@ CalendarAdapter.OnItemClickListener onItemClickListener;
                     @Override
                     public void onClick(View v) {
                         onItemClickListener.onItemClick(calendarItems.get(position));
-
                     }
                 });
+
+                // set blinking animation for ongoing activities
+                if (calendarItems.get(position).getEndTime() != null && position == 0) {
+                    runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            currentDate = new Date();
+                            isHandlerRunning = true;
+
+                            if (calendarItems.get(position).getTimeStamp().compareTo(currentDate) <= 0 &&
+                                    calendarItems.get(position).getEndTime().compareTo(currentDate) >= 0) {
+                                if (!blinkAnimation.hasStarted()) {
+                                    ((CalendarViewHolder) holder).itemView.startAnimation(blinkAnimation);
+                                    callback.onRefresh(1);
+                                }
+                            } else {
+                                if (blinkAnimation.hasStarted()) {
+                                    ((CalendarViewHolder) holder).itemView.clearAnimation();
+                                    handler.removeCallbacksAndMessages(null);
+                                    isHandlerRunning = false;
+                                    callback.onRefresh(2);
+                                }
+                            }
+                            handler.postDelayed(this, 2000); // Repeat the check every 2.2 second
+                        }
+                    };
+                    handler.post(runnable);
+                }
+                break;
+            case COURSE_WISE:
+                sortList(calendarItems);
+                ((CalendarViewHolder) holder).activityIcon.setImageResource(calendarItems.get(position).getActivityIcon());
+
+                //change the calendar activity card color
+                switch (calendarItems.get(position).getCategory()){
+                    case "LAB":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.LAB));
+                        break;
+                    case "TMA":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.TMA));
+                        break;
+                    case "DS":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.DS));
+                        break;
+                    case "PS":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.PS));
+                        break;
+                    case "CAT":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.CAT));
+                        break;
+                    case "FINAL":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.FINAL));
+                        break;
+                    case "VIVA":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.VIVA));
+                        break;
+                    case "QUIZ":
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.QUIZ));
+                        break;
+                    default:
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.DarkGray));
+                        break;
+                }
+
+                ((CalendarViewHolder) holder).courseCode.setText(calendarItems.get(position).getCourseCode());
+                ((CalendarViewHolder) holder).activityName.setText(calendarItems.get(position).getActivityName());
+                ((CalendarViewHolder) holder).date.setText(calendarItems.get(position).getDate());
+                ((CalendarViewHolder) holder).day.setText(calendarItems.get(position).getDay());
+                ((CalendarViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemClickListener.onItemClick(calendarItems.get(position));
+                    }
+                });
+
         }
 
     }
@@ -95,4 +264,6 @@ CalendarAdapter.OnItemClickListener onItemClickListener;
     public interface OnItemClickListener {
         void onItemClick(CalendarItem position);
     }
+
+
 }

@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:id="@+id/title_actionbar"
         android:text="Home"
-        android:textColor="@color/DarkRed"
+        android:textColor="?attr/colorPrimary"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:gravity="center"/>
 

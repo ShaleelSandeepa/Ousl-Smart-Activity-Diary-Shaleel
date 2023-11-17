@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.ouslsmartactivitydiary.fragment.CourseWiseFragment;
+import com.ouslsmartactivitydiary.fragment.MyCalendarFragment;
+import com.ouslsmartactivitydiary.fragment.MyCoursesFragment;
+
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {

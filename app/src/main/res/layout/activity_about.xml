@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/LightGray"
+    tools:context=".activity.AboutActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/myActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/curved_background"
+            android:elevation="5dp"
+            app:contentInsetEnd="16dp"
+            app:contentInsetStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/backIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title_actionbar"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Home"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/card_color2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageView
+                android:id="@+id/profilePicture"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginStart="122dp"
+                android:layout_marginEnd="122dp"
+                android:layout_marginBottom="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/round_logo"
+                app:layout_constraintBottom_toTopOf="@+id/appName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.486"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/appName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="0dp"
+                android:scaleType="centerCrop"
+                android:text="OUSL SMART ACTIVITY DIARY"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/profilePicture"
+                app:layout_constraintStart_toStartOf="@+id/profilePicture"
+                app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+
+            <TextView
+                android:id="@+id/companyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:padding="0dp"
+                android:scaleType="centerCrop"
+                android:text="powered by NOVA Technologies"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/appName"
+                app:layout_constraintStart_toStartOf="@+id/appName"
+                app:layout_constraintTop_toBottomOf="@+id/appName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_above="@+id/nova2"
+        android:layout_below="@+id/topView">
+
+        <LinearLayout
+            android:id="@+id/whiteLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:elevation="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:justificationMode="inter_word"
+                android:padding="0dp"
+                android:scaleType="centerCrop"
+                android:text="@string/about_para1"
+                android:textColor="@color/DarkGray"
+                android:textSize="16dp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:justificationMode="inter_word"
+                android:padding="0dp"
+                android:scaleType="centerCrop"
+                android:text="@string/about_para2"
+                android:textColor="@color/DarkGray"
+                android:textSize="16dp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/nova2"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/nova2" />
+
+</RelativeLayout>

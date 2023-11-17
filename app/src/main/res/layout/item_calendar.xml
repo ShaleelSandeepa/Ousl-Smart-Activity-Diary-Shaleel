@@ -41,6 +41,7 @@
                 android:scaleType="centerCrop"
                 android:textColor="@color/white"
                 android:text="EEI4366"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -52,6 +53,7 @@
                 android:scaleType="centerCrop"
                 android:textColor="@color/white"
                 android:text="Lab Test 3"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
         <LinearLayout
@@ -71,6 +73,7 @@
                 android:scaleType="centerCrop"
                 android:textColor="@color/white"
                 android:text="19/7"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -82,6 +85,7 @@
                 android:scaleType="centerCrop"
                 android:textColor="@color/white"
                 android:text="Wed"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/curved_background_top">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/courseCardViewDegree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextDegree"
+            android:paddingStart="7dp"
+            android:paddingEnd="7dp"
+            android:hint="Select Degree Programme" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCourseDialogProgrammes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/courseCardViewDegree"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        android:maxHeight="500dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/courseCardViewAcademic"
+        android:layout_below="@+id/recyclerCourseDialogProgrammes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextAcademicYear"
+            android:paddingStart="7dp"
+            android:paddingEnd="7dp"
+            android:hint="Select Level" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCourseDialogLevels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/courseCardViewAcademic"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        android:maxHeight="500dp"/>
+
+    <Button
+        android:id="@+id/buttonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_below="@+id/recyclerCourseDialogLevels"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:enabled="false"
+        android:text="search"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_below="@+id/buttonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCourseDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonAdd"
+        android:layout_marginTop="10dp"
+        android:maxHeight="500dp"
+        android:minHeight="300dp" />
+
+</RelativeLayout>

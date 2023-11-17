@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/LightGray"
+    tools:context=".activity.ProfileActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/myActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/curved_background"
+        android:elevation="5dp"
+        app:contentInsetEnd="16dp"
+        app:contentInsetStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title_actionbar"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Home"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/card_color2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <ImageView
+                    android:id="@+id/profilePicture"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="122dp"
+                    android:layout_marginEnd="122dp"
+                    android:layout_marginBottom="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_user"
+                    app:layout_constraintBottom_toTopOf="@+id/userName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.486"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:scaleType="centerCrop"
+                    android:text="Name"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/profilePicture"
+                    app:layout_constraintStart_toStartOf="@+id/profilePicture"
+                    app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+
+                <TextView
+                    android:id="@+id/userEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:padding="0dp"
+                    android:scaleType="centerCrop"
+                    android:text="email"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/userName"
+                    app:layout_constraintStart_toStartOf="@+id/userName"
+                    app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/whiteLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:elevation="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <!-- txtName -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/Theme"
+                            android:gravity="fill"
+                            android:orientation="horizontal"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:background="@color/LightGray"
+                                android:gravity="fill"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="top"
+                                    android:paddingLeft="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="Name"
+                                    android:textColor="@color/black"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/txtName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="end"
+                                    android:paddingRight="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="-    "
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <EditText
+                                    android:id="@+id/edtName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="0dp"
+                                    android:gravity="end"
+                                    android:hint="Enter name"
+                                    android:textSize="16dp"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- txtRegNo -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/Theme"
+                            android:gravity="fill"
+                            android:orientation="horizontal"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:background="@color/LightGray"
+                                android:gravity="fill"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="top"
+                                    android:paddingLeft="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="Reg. No"
+                                    android:textColor="@color/black"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/txtRegNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="end"
+                                    android:paddingRight="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="-    "
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <EditText
+                                    android:id="@+id/edtRegNo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="0dp"
+                                    android:gravity="end"
+                                    android:hint="Enter Registration number"
+                                    android:textSize="16dp"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- txtSNumber -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/Theme"
+                            android:gravity="fill"
+                            android:orientation="horizontal"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:background="@color/LightGray"
+                                android:gravity="fill"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="top"
+                                    android:paddingLeft="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="SNumber"
+                                    android:textColor="@color/black"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/txtSNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="end"
+                                    android:paddingRight="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="-    "
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <EditText
+                                    android:id="@+id/edtSNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="0dp"
+                                    android:gravity="end"
+                                    android:hint="Enter SNumber"
+                                    android:textSize="16dp"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- txtEmail -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/Theme"
+                            android:gravity="fill"
+                            android:orientation="horizontal"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:background="@color/LightGray"
+                                android:gravity="fill"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="top"
+                                    android:paddingLeft="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="Email"
+                                    android:textColor="@color/black"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/txtEmail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="end"
+                                    android:paddingRight="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="-    "
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <EditText
+                                    android:id="@+id/edtEmail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="0dp"
+                                    android:gravity="end"
+                                    android:hint="Enter email"
+                                    android:textSize="16dp"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- txtProgramme -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/Theme"
+                            android:gravity="fill"
+                            android:orientation="horizontal"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:background="@color/LightGray"
+                                android:gravity="fill"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="top"
+                                    android:paddingLeft="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="Programme"
+                                    android:textColor="@color/black"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txtProgramme"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="end"
+                                    android:paddingRight="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="-    "
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <EditText
+                                    android:id="@+id/edtProgramme"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="0dp"
+                                    android:gravity="end"
+                                    android:hint="Enter degree programme"
+                                    android:textSize="16dp"
+                                    android:visibility="gone" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- txtCenter -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/Theme"
+                            android:gravity="fill"
+                            android:orientation="horizontal"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:background="@color/LightGray"
+                                android:gravity="fill"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="top"
+                                    android:paddingLeft="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="Reg. Center"
+                                    android:textColor="@color/black"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txtCenter"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="end"
+                                    android:paddingRight="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="-    "
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <EditText
+                                    android:id="@+id/edtCenter"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="0dp"
+                                    android:gravity="end"
+                                    android:hint="Enter center"
+                                    android:textSize="16dp"
+                                    android:visibility="gone" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                        <!-- txtPhone -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/Theme"
+                            android:gravity="fill"
+                            android:orientation="horizontal"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:background="@color/LightGray"
+                                android:gravity="fill"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="top"
+                                    android:paddingLeft="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="Phone"
+                                    android:textColor="@color/black"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/txtPhone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="end"
+                                    android:paddingRight="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="-    "
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <EditText
+                                    android:id="@+id/edtPhone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="0dp"
+                                    android:gravity="end"
+                                    android:hint="Enter phone"
+                                    android:textSize="16dp"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- txtAddress -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/Theme"
+                            android:gravity="fill"
+                            android:orientation="horizontal"
+                            android:padding="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:background="@color/LightGray"
+                                android:gravity="fill"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="top"
+                                    android:paddingLeft="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="Address"
+                                    android:textColor="@color/black"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/txtAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="end"
+                                    android:paddingRight="0dp"
+                                    android:scaleType="centerCrop"
+                                    android:text="-    "
+                                    android:textSize="16dp"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <EditText
+                                    android:id="@+id/edtAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="0dp"
+                                    android:gravity="end"
+                                    android:hint="Enter address"
+                                    android:textSize="16dp"
+                                    android:visibility="gone" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/editDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/rounded_button2"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="Edit Details"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

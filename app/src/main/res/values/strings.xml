@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">OUSL Smart Activity Diary</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_degree">select_degree</string>
+    <string name="about_para1">Smart Activity Diary is a technology-driven company dedicated to enhancing the academic experience for students at the Open University of Sri Lanka.</string>
+    <string name="about_para2">Our mission is to simplify and streamline the process of accessing and managing academic activities and events through the development of a user-friendly mobile application where students can easily access and manage their daily academic activities. It will consolidate all activity schedules in one place, notify students of updates or changes, and contribute to their academic success and learning experience.</string>
 </resources>

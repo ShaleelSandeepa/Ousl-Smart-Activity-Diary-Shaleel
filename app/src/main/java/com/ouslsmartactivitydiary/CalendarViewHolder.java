@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CalendarViewHolder extends RecyclerView.ViewHolder {
 
-    ImageView activityIcon;
+    ImageView activityIcon, calendarIcon;
     TextView courseCode, activityName, date, day;
     CardView cardView;
 
@@ -22,5 +22,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder {
         date = itemView.findViewById(R.id.itemDate);
         day = itemView.findViewById(R.id.itemDay);
         cardView = itemView.findViewById(R.id.calendarItemCard);
+
+        calendarIcon = itemView.findViewById(R.id.itemCalendarIcon);
     }
 }

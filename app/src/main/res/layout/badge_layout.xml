@@ -1,0 +1,31 @@
+<!-- badge_layout.xml -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="15dp"
+    android:layout_gravity="top|end">
+
+    <ImageView
+        android:id="@+id/badgeImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_notifications"
+        android:contentDescription="Badge" />
+
+    <TextView
+        android:id="@+id/badgeCount"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:minWidth="15dp"
+        android:layout_height="15dp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="top|end"
+        android:gravity="center"
+        android:background="@drawable/badge_background"
+        android:padding="2dp"
+        android:textColor="#FFFFFF"
+        android:textSize="8dp"
+        android:textStyle="bold"
+        android:text="1"/>
+
+</FrameLayout>
