@@ -3,6 +3,7 @@ package com.ouslsmartactivitydiary;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
+import com.ouslsmartactivitydiary.data.DatabaseHelper;
 
 import java.util.Date;
 
@@ -23,6 +26,10 @@ public class CalendarDialog extends AppCompatDialogFragment {
     Date timeStamp;
     String[] timeStampParts, endTimeParts;
 
+    int LAB, QUIZ, PS, VIVA, DS, TMA, CAT, FINAL;
+    DatabaseHelper databaseHelper;
+    Cursor colorCursor;
+
     public CalendarDialog(CalendarItem position){
         this.position = position;
     }
@@ -33,6 +40,7 @@ public class CalendarDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         context = getContext();
+        databaseHelper = new DatabaseHelper(getContext());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -70,30 +78,32 @@ public class CalendarDialog extends AppCompatDialogFragment {
         }
         time.setTextColor(getResources().getColor(R.color.white));
 
+        checkColors();
+
         switch (position.getCategory()){
             case "LAB":
-                view.setBackgroundColor(getResources().getColor(R.color.LAB));
+                view.setBackgroundColor(LAB);
                 break;
             case "TMA":
-                view.setBackgroundColor(getResources().getColor(R.color.TMA));
+                view.setBackgroundColor(TMA);
                 break;
             case "DS":
-                view.setBackgroundColor(getResources().getColor(R.color.DS));
+                view.setBackgroundColor(DS);
                 break;
             case "PS":
-                view.setBackgroundColor(getResources().getColor(R.color.PS));
+                view.setBackgroundColor(PS);
                 break;
             case "CAT":
-                view.setBackgroundColor(getResources().getColor(R.color.CAT));
+                view.setBackgroundColor(CAT);
                 break;
             case "FINAL":
-                view.setBackgroundColor(getResources().getColor(R.color.FINAL));
+                view.setBackgroundColor(FINAL);
                 break;
             case "VIVA":
-                view.setBackgroundColor(getResources().getColor(R.color.VIVA));
+                view.setBackgroundColor(VIVA);
                 break;
             case "QUIZ":
-                view.setBackgroundColor(getResources().getColor(R.color.QUIZ));
+                view.setBackgroundColor(QUIZ);
                 break;
             default:
                 view.setBackgroundColor(getResources().getColor(R.color.DarkGray));
@@ -101,6 +111,39 @@ public class CalendarDialog extends AppCompatDialogFragment {
 
         builder.setView(view);
         return builder.create();
+    }
+
+    public void checkColors() {
+        colorCursor = databaseHelper.getAllColors();
+        while (colorCursor.moveToNext()) {
+            switch (colorCursor.getInt(0)) {
+                case 1:
+                    LAB = colorCursor.getInt(2);
+                    break;
+                case 2:
+                    QUIZ = colorCursor.getInt(2);
+                    break;
+                case 3:
+                    PS = colorCursor.getInt(2);
+                    break;
+                case 4:
+                    VIVA = colorCursor.getInt(2);
+                    break;
+                case 5:
+                    DS = colorCursor.getInt(2);
+                    break;
+                case 6:
+                    TMA = colorCursor.getInt(2);
+                    break;
+                case 7:
+                    CAT = colorCursor.getInt(2);
+                    break;
+                case 8:
+                    FINAL = colorCursor.getInt(2);
+                    break;
+            }
+
+        }
     }
 
     @Override

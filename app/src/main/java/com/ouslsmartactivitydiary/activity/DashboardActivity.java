@@ -34,6 +34,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.ouslsmartactivitydiary.MyFirebaseMessagingService;
 import com.ouslsmartactivitydiary.MyViewModel;
 import com.ouslsmartactivitydiary.R;
+import com.ouslsmartactivitydiary.StaffActivity;
 import com.ouslsmartactivitydiary.ViewPagerAdapter;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 import com.ouslsmartactivitydiary.fragment.MyCalendarFragment;
@@ -61,6 +62,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
 //    private MyViewModel myViewModelNotification;
     private static final int REQUEST_CODE = 1;
+    private static final int REQUEST_CODE_SETTINGS = 2;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -76,12 +78,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         //Change action bar title
         textView = findViewById(R.id.title_actionbar);
         textView.setText("Dashboard");
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startAnimation();
-            }
-        });
 
         //drawer related
         drawerLayout =findViewById(R.id.drawer_layout);
@@ -192,11 +188,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         });
     }
 
-    private void startAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim);
-        textView.startAnimation(animation);
-    }
-
     //When try to back from starting screen this method will execute
     @Override
     public void onBackPressed() {
@@ -235,6 +226,11 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.nav_staff:
+                Intent intentStaff = new Intent(this, StaffActivity.class);
+                startActivity(intentStaff);
+                break;
+
             case R.id.nav_profile:
                 Intent intentProfile = new Intent(this, ProfileActivity.class);
                 startActivity(intentProfile);
@@ -242,7 +238,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
             case R.id.nav_settings:
                 Intent intentSettings = new Intent(this, SettingsActivity.class);
-                startActivity(intentSettings);
+                startActivityForResult(intentSettings, REQUEST_CODE_SETTINGS);
                 break;
 
             case R.id.nav_about:
@@ -282,6 +278,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 badgeCount.setText("99+");
 
             }
+        } else if (itemsNotification.getCount() == 0) {
+            badgeCount.setText("0");
+            badgeCount.setVisibility(View.GONE);
         }
         itemsNotification.close();
     }
@@ -300,6 +299,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle the case where the user canceled the operation in the child activity
             }
+        }
+
+        if (requestCode == REQUEST_CODE_SETTINGS && data != null) {
+            Toast.makeText(this, "Please refresh for color changes !", Toast.LENGTH_SHORT).show();
         }
     }
 

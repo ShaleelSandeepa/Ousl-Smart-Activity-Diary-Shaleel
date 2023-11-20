@@ -6,6 +6,7 @@ import static com.ouslsmartactivitydiary.CalendarItem.COURSE_WISE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.Timestamp;
+import com.ouslsmartactivitydiary.data.DatabaseHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +45,10 @@ public class CalendarAdapter extends RecyclerView.Adapter {
     Date currentDate;
     boolean isHandlerRunning = false;
     int count = 0;
+
+    DatabaseHelper databaseHelper;
+    Cursor colorCursor;
+    int LAB, QUIZ, PS, VIVA, DS, TMA, CAT, FINAL;
 
     public interface AdapterCallback {
         void onRefresh(int type);
@@ -131,6 +137,9 @@ public class CalendarAdapter extends RecyclerView.Adapter {
         blinkAnimation.setRepeatMode(Animation.REVERSE); // Reverse the animation when repeating
         handler = new Handler();
 
+        databaseHelper = new DatabaseHelper(context);
+        checkColors();
+
         switch (calendarItems.get(position).getViewType()) {
             case ACTIVITIES:
                 sortList(calendarItems);
@@ -139,28 +148,28 @@ public class CalendarAdapter extends RecyclerView.Adapter {
                 //change the calendar activity card color
                 switch (calendarItems.get(position).getCategory()){
                     case "LAB":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.LAB));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(LAB);
                         break;
                     case "TMA":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.TMA));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(TMA);
                         break;
                     case "DS":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.DS));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(DS);
                         break;
                     case "PS":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.PS));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(PS);
                         break;
                     case "CAT":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.CAT));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(CAT);
                         break;
                     case "FINAL":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.FINAL));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(FINAL);
                         break;
                     case "VIVA":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.VIVA));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(VIVA);
                         break;
                     case "QUIZ":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.QUIZ));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(QUIZ);
                         break;
                     default:
                         ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.DarkGray));
@@ -213,28 +222,28 @@ public class CalendarAdapter extends RecyclerView.Adapter {
                 //change the calendar activity card color
                 switch (calendarItems.get(position).getCategory()){
                     case "LAB":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.LAB));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(LAB);
                         break;
                     case "TMA":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.TMA));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(TMA);
                         break;
                     case "DS":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.DS));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(DS);
                         break;
                     case "PS":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.PS));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(PS);
                         break;
                     case "CAT":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.CAT));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(CAT);
                         break;
                     case "FINAL":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.FINAL));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(FINAL);
                         break;
                     case "VIVA":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.VIVA));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(VIVA);
                         break;
                     case "QUIZ":
-                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.QUIZ));
+                        ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(QUIZ);
                         break;
                     default:
                         ((CalendarViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.DarkGray));
@@ -254,6 +263,39 @@ public class CalendarAdapter extends RecyclerView.Adapter {
 
         }
 
+    }
+
+    public void checkColors() {
+        colorCursor = databaseHelper.getAllColors();
+        while (colorCursor.moveToNext()) {
+            switch (colorCursor.getInt(0)) {
+                case 1:
+                    LAB = colorCursor.getInt(2);
+                    break;
+                case 2:
+                    QUIZ = colorCursor.getInt(2);
+                    break;
+                case 3:
+                    PS = colorCursor.getInt(2);
+                    break;
+                case 4:
+                    VIVA = colorCursor.getInt(2);
+                    break;
+                case 5:
+                    DS = colorCursor.getInt(2);
+                    break;
+                case 6:
+                    TMA = colorCursor.getInt(2);
+                    break;
+                case 7:
+                    CAT = colorCursor.getInt(2);
+                    break;
+                case 8:
+                    FINAL = colorCursor.getInt(2);
+                    break;
+            }
+
+        }
     }
 
     @Override

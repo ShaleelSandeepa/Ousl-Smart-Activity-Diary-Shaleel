@@ -1,6 +1,7 @@
 package com.ouslsmartactivitydiary.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,6 +49,8 @@ import java.util.Date;
 import java.util.List;
 
 public class CourseWiseFragment extends Fragment {
+
+    Context context;
 
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference collectionReference;
@@ -197,7 +201,19 @@ public class CourseWiseFragment extends Fragment {
     }
 
     public void loadDetails(List<CalendarItem> activityItemList, String cc) {
-        collectionReference = FirebaseFirestore.getInstance().collection("activities");
+
+        String activityCollection = " ";
+
+        cursor = databaseHelper.getUserData(1);
+        if (cursor.moveToFirst()) {
+            activityCollection = cursor.getString(5);
+            if (activityCollection.equals("")) {
+                Toast.makeText(context, "Please select your Programme in your Profile", Toast.LENGTH_SHORT).show();
+                activityCollection = " ";
+            }
+        }
+
+        collectionReference = FirebaseFirestore.getInstance().collection(activityCollection);
         collectionReference.orderBy(fieldName, Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @SuppressLint("NotifyDataSetChanged")
@@ -330,5 +346,13 @@ public class CourseWiseFragment extends Fragment {
                 swipe_refresh_layout_courses.setRefreshing(false);
             }
         }, 2000);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        this.context = context;
+
     }
 }

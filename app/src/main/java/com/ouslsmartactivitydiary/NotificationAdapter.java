@@ -3,13 +3,17 @@ package com.ouslsmartactivitydiary;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
@@ -70,8 +74,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHo
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.deleteNotification(notificationList.get(position).getNotificationID());
-                onNotificationClickListener.onItemClick(notificationList.get(position), position, "delete");
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim);
+                holder.itemView.startAnimation(animation);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        databaseHelper.deleteNotification(notificationList.get(position).getNotificationID());
+                        onNotificationClickListener.onItemClick(notificationList.get(position), position, "delete");
+                    }
+                }, 500);
+
             }
         });
 

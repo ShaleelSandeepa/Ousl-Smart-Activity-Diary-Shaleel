@@ -45,6 +45,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NOTIFICATION_TOPIC = "TOPIC"; //4
     public static final String NOTIFICATION_DETAILS = "DETAILS"; //5
 
+    //Color table related database variables
+    public static final String TABLE_COLORS = "color_table";
+    public static final String COLOR_ID = "COLOR_ID";
+    public static final String COLOR_NAME = "COLOR_NAME";
+    public static final String COLOR_VALUE = "COLOR_VALUE";
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_ACTIVITY_DIARY, null, 1);
         SQLiteDatabase database = this.getWritableDatabase();
@@ -90,6 +96,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 NOTIFICATION_DETAILS + " TEXT)";
         db.execSQL(CREATE_NOTIFICATION_TABLE_QUERY);
 
+        //create settings table
+        String CREATE_COLOR_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS " + TABLE_COLORS + " (" +
+                COLOR_ID + " INTEGER PRIMARY KEY, " +
+                COLOR_NAME + " TEXT, " +
+                COLOR_VALUE + " INTEGER)";
+        db.execSQL(CREATE_COLOR_TABLE_QUERY);
+
     }
 
     @Override
@@ -98,6 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_DETAILS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLORS);
     }
 
     //////////////////////////// COURSE DETAILS /////////////////////////////////////
@@ -120,6 +134,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getAllCourses() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("SELECT * FROM " + COURSE_TABLE, null);
+        return result;
+    }
+
+    //get color from colors table by Name
+    public Cursor getCourseByCourseCode(String cc) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("SELECT * FROM " + COURSE_TABLE + " WHERE " + COURSE_CODE + " = ?", new String[]{cc});
         return result;
     }
 
@@ -273,11 +294,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //delete all notifications
-    public void deleteAllNotifications(int accountID) {
+    public void deleteAllNotifications() {
         SQLiteDatabase db = this.getWritableDatabase();
-        if (accountID > -1) {
-            db.delete(TABLE_NOTIFICATIONS, "ACCOUNT_ID = ? ", new String[]{String.valueOf(accountID)});
-        }
+        db.delete(TABLE_NOTIFICATIONS, null, null);
         db.close();
     }
 
@@ -301,6 +320,68 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         if (id > -1) {
             db.delete(TABLE_NOTIFICATIONS, "ID = ? ", new String[]{String.valueOf(id)});
+        }
+    }
+
+    ///////////////////////// COLOR TABLE /////////////////////////
+
+    //add color
+    public boolean addColor(int id, String name, int value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLOR_ID, id);
+        contentValues.put(COLOR_NAME, name);
+        contentValues.put(COLOR_VALUE, value);
+        long result = db.insert(TABLE_COLORS, null, contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //get all colors from colors table
+    public Cursor getAllColors() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("SELECT * FROM " + TABLE_COLORS, null);
+        return result;
+    }
+
+    //update color value by Color ID
+    public void updateColorValueByID(int id, int value) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLOR_VALUE, value);
+        db.update(TABLE_COLORS , values , "COLOR_ID = ?" , new String[]{String.valueOf(id)});
+    }
+
+    //update color value by Color ID
+    public void updateColorValueByName(String name, int value) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLOR_VALUE, value);
+        db.update(TABLE_COLORS , values , "COLOR_NAME = ?" , new String[]{name});
+    }
+
+    //get color from colors table by ID
+    public Cursor getColorByID(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("SELECT * FROM " + TABLE_COLORS + " WHERE " + COLOR_ID + " = ?", new String[]{String.valueOf(id)});
+        return result;
+    }
+
+    //get color from colors table by Name
+    public Cursor getColorByName(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("SELECT * FROM " + TABLE_COLORS + " WHERE " + COLOR_NAME + " = ?", new String[]{name});
+        return result;
+    }
+
+    //delete color by id
+    public void deleteColorByID(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        if (id > -1) {
+            db.delete(TABLE_COLORS, "COLOR_ID = ? ", new String[]{String.valueOf(id)});
         }
     }
 

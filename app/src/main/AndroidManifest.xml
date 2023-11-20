@@ -4,8 +4,10 @@
     package="com.ouslsmartactivitydiary">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OUSLSmartActivityDiary"
         tools:targetApi="31">
+        <activity
+            android:name=".StaffActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.NotificationActivity"
             android:exported="false" />
@@ -49,10 +54,9 @@
             android:name=".MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

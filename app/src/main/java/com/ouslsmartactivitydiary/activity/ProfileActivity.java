@@ -1,29 +1,56 @@
 package com.ouslsmartactivitydiary.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.ouslsmartactivitydiary.CourseAdapter;
+import com.ouslsmartactivitydiary.CourseItem;
 import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageView backIcon;
     private AppCompatTextView textView;
     private Toolbar actionBar;
+
+    View optionLayout;
+    TextView clearProfile;
+    LinearLayout optionMenu;
+    AlertDialog.Builder alertDialog;
 
     TextView txtName, txtRegNo, txtSNumber, txtEmail, txtProgramme, txtCenter, txtPhone, txtAddress;
     EditText edtName, edtRegNo, edtSNumber, edtEmail, edtProgramme, edtCenter, edtPhone, edtAddress;
@@ -33,9 +60,18 @@ public class ProfileActivity extends AppCompatActivity {
     int accountID, profileCount;
     String accountUserRegNo;
 
+    List<CourseItem> programmeList;
+    RecyclerView recyclerCourseDialogProgrammes;
+    CourseAdapter programmeAdapter;
+
+    //Firebase & local DB
+    FirebaseFirestore firestore;
+    CollectionReference collectionReference;
+
     DatabaseHelper databaseHelper;
     Cursor cursor;
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +104,7 @@ public class ProfileActivity extends AppCompatActivity {
                 decor.setSystemUiVisibility(0);
         }
 
+        firestore = FirebaseFirestore.getInstance();
         databaseHelper = new DatabaseHelper(this);
 
         userName = findViewById(R.id.userName);
@@ -108,6 +145,80 @@ public class ProfileActivity extends AppCompatActivity {
                 displayProfile();
             }
         }
+
+        //create option badge
+        optionLayout = getLayoutInflater().inflate(R.layout.option_layout, null);
+        optionMenu = findViewById(R.id.optionMenu);
+        optionMenu.setVisibility(View.GONE);
+        optionMenu.bringToFront();
+
+        clearProfile = findViewById(R.id.clearProfile);
+
+        // Find the menu item you want to add the badge to
+        MenuItem optionMenuItem = actionBar.getMenu().findItem(R.id.action_option);
+
+        // Set the badge as the action view for the menu item
+        optionMenuItem.setActionView(optionLayout);
+        optionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (optionMenu.getVisibility() == View.VISIBLE) {
+                    optionMenu.setVisibility(View.GONE);
+                } else {
+                    optionMenu.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+        clearProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionMenu.setVisibility(View.GONE);
+                alertDialog = new AlertDialog.Builder(ProfileActivity.this);
+                alertDialog.setTitle("Clear Profile");
+                alertDialog.setMessage("Do you want clear profile?");
+
+                //When click "Yes" it will execute this
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        strName = "";
+                        strRegNo = "";
+                        strSNumber = "";
+                        strEmail = "";
+                        strProgramme = "";
+                        strCenter = "";
+                        strPhone = "";
+                        strAddress = "";
+
+                        edtName.setText("");
+                        edtRegNo.setText("");
+                        edtSNumber.setText("");
+                        edtEmail.setText("");
+                        edtProgramme.setText("");
+                        edtCenter.setText("");
+                        edtPhone.setText("");
+                        edtAddress.setText("");
+
+                        boolean isCleared = databaseHelper.updateProfileDetails(1, strName, strRegNo, strSNumber, strEmail, strProgramme, strCenter, strPhone, strAddress);
+                        if (isCleared) {
+                            displayProfile();
+                            Toast.makeText(ProfileActivity.this, "Profile Cleared !", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                //When click "No" it will execute this
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
 
         editDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,12 +293,71 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.makeText(ProfileActivity.this, "Details not update !", Toast.LENGTH_SHORT).show();
                         }
                     }
+                    recyclerCourseDialogProgrammes.setVisibility(View.GONE);
 
                 }
                 cursor.close();
             }
         });
 
+        recyclerCourseDialogProgrammes = findViewById(R.id.recyclerCourseDialogProgrammes);
+        programmeList = new ArrayList<>();
+
+        edtProgramme.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // The cursor is now active
+                    recyclerCourseDialogProgrammes.setVisibility(View.VISIBLE);
+
+                    getProgrammeDocuments();
+
+                    programmeAdapter = new CourseAdapter(ProfileActivity.this, programmeList, new CourseAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(CourseItem position) {
+                            edtProgramme.setText(position.getProgramme());
+                            recyclerCourseDialogProgrammes.setVisibility(View.GONE);
+                        }
+                    });
+                    recyclerCourseDialogProgrammes.setLayoutManager(new LinearLayoutManager(ProfileActivity.this, LinearLayoutManager.VERTICAL, false));
+                    recyclerCourseDialogProgrammes.setAdapter(programmeAdapter);
+                    programmeAdapter.notifyDataSetChanged();
+                }
+                return false;
+            }
+        });
+
+    }
+
+    public void getProgrammeDocuments() {
+        programmeList.clear();
+        collectionReference = firestore.collection("courses");
+        collectionReference.orderBy(FieldPath.documentId(), Query.Direction.ASCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                                String programme = documentSnapshot.getString("programmeName");
+                                programmeList.add(new CourseItem(documentSnapshot.getId(), programme, 4));
+                            }
+
+                            // Notify your adapter or update UI here
+                            programmeAdapter.notifyDataSetChanged();
+
+                        } else {
+                            // Handle the error
+                            Exception e = task.getException();
+                            if (e != null) {
+                                // Log or handle the exception
+                            }
+                        }
+                    }
+                });
     }
 
     //display profile details in user profile interface.

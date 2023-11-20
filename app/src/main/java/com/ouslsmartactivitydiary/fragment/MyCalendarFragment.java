@@ -67,6 +67,8 @@ import java.util.Objects;
 
 public class MyCalendarFragment extends Fragment implements CalendarAdapter.AdapterCallback {
 
+    Context context;
+
     TextView todayTextView;
     LinearLayout linearMonday, linearTuesday, linearWednesday, linearThursday,linearFriday, linearSaturday, linearSunday;
 
@@ -89,20 +91,25 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     String category, courseCode, activity, date, dateMonth, day, todayTimeStamp, note;
-    int icon;
     String[] datePart, todayParts, weekEndParts, weekStartParts;
+    int icon;
+    int LAB, QUIZ, PS, VIVA, DS, TMA, CAT, FINAL;
     boolean isFound = false;
     boolean isRefreshed = false;
     boolean isReddyToUpdate = false;
+    boolean courseFound = false;
+    boolean isFirstRun = true;
+    int changes, snapshotCount;
+    String type;
 
     OnNotificationCountListener onNotificationCountListener;
     boolean isAdded;
 
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    CollectionReference collectionReference;
+    CollectionReference collectionReference, collectionReferenceStat;
     String fieldName = "date";
     DatabaseHelper databaseHelper;
-    Cursor cursor;
+    Cursor cursor, colorCursor;
     int accountID;
 
     private CalendarItem position;
@@ -204,6 +211,7 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
             accountID = cursor.getInt(0);
         }
 
+        checkColors();
         loadDetails(activityItemList);
 
         // check any course added to the my course section
@@ -268,54 +276,74 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
     }
 
     public void loadDetails(List<CalendarItem> activityItemList) {
-        cursor = databaseHelper.getAllCourses();
-        collectionReference = FirebaseFirestore.getInstance().collection("activities");
+
+        String activityCollection = " ";
+
+        cursor = databaseHelper.getUserData(1);
+        if (cursor.moveToFirst()) {
+            activityCollection = cursor.getString(5);
+            if (activityCollection.equals("")) {
+                Toast.makeText(context, "Please select your Programme in your Profile", Toast.LENGTH_SHORT).show();
+                activityCollection = " ";
+            }
+        }
+
+        collectionReference = FirebaseFirestore.getInstance().collection(activityCollection);
         collectionReference.orderBy(fieldName, Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        changes = 0;
+                        snapshotCount = value.getDocumentChanges().size();
+
+                        if (value.getDocumentChanges().size() == 0) {
+                            Toast.makeText(context, "Check Your Programme Name in your Profile", Toast.LENGTH_SHORT).show();
+                        }
 
                         for (DocumentChange documentChange : value.getDocumentChanges()) {
-                            // check if activity is related to one of added courses
-                            if (cursor.moveToFirst()) {
-                                do {
-                                    if (cursor.getString(1).equals(documentChange.getDocument().getString("courseCode"))){
-                                        // check document change type
-                                        if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                                            addList(documentChange);
-                                        } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
-                                            for (int i=0; i<activityItemList.size(); i++) {
-                                                if (activityItemList.get(i).getId().equals(documentChange.getDocument().getId())){
-                                                    isFound = true;
-                                                    updateList(documentChange, i);
-                                                    addNotification("MODIFIED");
-                                                    onNotificationCountListener.onNotificationCount();
-                                                }
-                                            }
-                                            // add activity only if not fount in the Array list, but in the firebase
-                                            if (!isFound){
-                                                isRefreshed = false;
-                                                addList(documentChange);
-                                                addNotification("ADDED");
-                                                onNotificationCountListener.onNotificationCount();
-                                            }
+                            changes++;
+                            if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                                cursor = databaseHelper.getCourseByCourseCode(documentChange.getDocument().getString("courseCode"));
+                                if (cursor.moveToFirst()) {
+                                    addList(documentChange);
+                                    type = "ADDED";
+                                }
+                            } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
+                                for (int i=0; i<activityItemList.size(); i++) {
+                                    if (activityItemList.get(i).getId().equals(documentChange.getDocument().getId())){
+                                        isFound = true;
+                                        updateList(documentChange, i);
+                                        changes++;
+                                        type = "MODIFIED";
+                                    }
 
-                                        } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
-                                            for (int i=0; i<activityItemList.size(); i++) {
-                                                if (activityItemList.get(i).getId().equals(documentChange.getDocument().getId())){
-                                                    activityItemList.remove(i);
-                                                    addNotification("REMOVED");
-                                                }
-                                            }
+                                    // add activity only if not fount in the Array list, but in the firebase
+                                    if (!isFound && changes == 1){
+                                        isRefreshed = false;
+                                        addList(documentChange);
+                                        changes++;
+                                        type = "ADDED";
+                                        break;
+                                    }
+                                }
+
+                            } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
+                                if (changes == 1) {
+                                    for (int i=0; i<activityItemList.size(); i++) {
+                                        if (activityItemList.get(i).getId().equals(documentChange.getDocument().getId())){
+                                            activityItemList.remove(i);
+                                            changes++;
+                                            type = "REMOVED";
+                                            break;
                                         }
                                     }
-                                } while (cursor.moveToNext());
+                                }
                             }
-                            cursor.moveToFirst();
                             calendarAdapter.notifyDataSetChanged();
 
                         }
+
                         loadCalendarIcons(value);
                         calendarMondayAdapter.notifyDataSetChanged();
                         calendarTuesdayAdapter.notifyDataSetChanged();
@@ -324,8 +352,29 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
                         calendarFridayAdapter.notifyDataSetChanged();
                         calendarSaturdayAdapter.notifyDataSetChanged();
                         calendarSundayAdapter.notifyDataSetChanged();
+
+                        calendarAdapter.notifyDataSetChanged();
+
+                        if (isFirstRun) {
+                            checkType();
+                            isFirstRun = false;  // Set the flag to false so that the method won't be called again
+                        }
                     }
                 });
+    }
+
+    public void checkType() {
+        if (snapshotCount == 1 && type != null) {
+            Toast.makeText(context, "Please Refresh Your Calendar", Toast.LENGTH_SHORT).show();
+            checkNotificationSetting(type);
+            onNotificationCountListener.onNotificationCount();
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isFirstRun = true;
+            }
+        }, 5000);
     }
 
     //load data to variables from changed document
@@ -380,12 +429,12 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
             if (documentChange.getDocument().getTimestamp(fieldName).compareTo(new Timestamp(currentDate)) >= 0 ||
                     documentChange.getDocument().getTimestamp("endTime").compareTo(new Timestamp(currentDate)) >= 0) {
                 activityItemList.add(new CalendarItem(1, category, documentChange.getDocument().getId(), icon, courseCode, activity, dateMonth, datePart[0], timeStamp, endTime, note));
-                isFound = false;
+                isFound = true;
             }
         } else {
             if (documentChange.getDocument().getTimestamp(fieldName).compareTo(new Timestamp(currentDate)) >= 0) {
                 activityItemList.add(new CalendarItem(1, category, documentChange.getDocument().getId(), icon, courseCode, activity, dateMonth, datePart[0], timeStamp, endTime, note));
-                isFound = false;
+                isFound = true;
             }
         }
 
@@ -496,41 +545,50 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
         todayTimeStamp = currentDate.toString();
         todayParts = todayTimeStamp.split(" ");
         todayTextView.setText((todayParts[2]+" "+todayParts[1]+" "+todayParts[5]));
+
+        linearMonday.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        linearTuesday.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        linearWednesday.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        linearThursday.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        linearFriday.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        linearSaturday.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        linearSunday.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+
         switch (todayParts[0]) {
             case "Mon":
                 weekStartDate = currentDate;
                 calculateWeekEnd(6);
-                linearMonday.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.LighterBlue2));
+                linearMonday.setBackgroundColor(ContextCompat.getColor(context, R.color.LighterBlue2));
                 break;
             case "Tue":
                 calculateWeekStart(-1);
                 calculateWeekEnd(5);
-                linearTuesday.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.LighterBlue2));
+                linearTuesday.setBackgroundColor(ContextCompat.getColor(context, R.color.LighterBlue2));
                 break;
             case "Wed":
                 calculateWeekStart(-2);
                 calculateWeekEnd(4);
-                linearWednesday.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.LighterBlue2));
+                linearWednesday.setBackgroundColor(ContextCompat.getColor(context, R.color.LighterBlue2));
                 break;
             case "Thu":
                 calculateWeekStart(-3);
                 calculateWeekEnd(3);
-                linearThursday.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.LighterBlue2));
+                linearThursday.setBackgroundColor(ContextCompat.getColor(context, R.color.LighterBlue2));
                 break;
             case "Fri":
                 calculateWeekStart(-4);
                 calculateWeekEnd(2);
-                linearFriday.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.LighterBlue2));
+                linearFriday.setBackgroundColor(ContextCompat.getColor(context, R.color.LighterBlue2));
                 break;
             case "Sat":
                 calculateWeekStart(-5);
                 calculateWeekEnd(1);
-                linearSaturday.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.LighterBlue2));
+                linearSaturday.setBackgroundColor(ContextCompat.getColor(context, R.color.LighterBlue2));
                 break;
             case "Sun":
                 calculateWeekStart(-6);
                 weekEndDate = currentDate;
-                linearSunday.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.LighterBlue2));
+                linearSunday.setBackgroundColor(ContextCompat.getColor(context, R.color.LighterBlue2));
                 break;
         }
     }
@@ -632,6 +690,39 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
         }
     }
 
+    public void checkColors() {
+        colorCursor = databaseHelper.getAllColors();
+        while (colorCursor.moveToNext()) {
+            switch (colorCursor.getInt(0)) {
+                case 1:
+                    LAB = colorCursor.getInt(2);
+                    break;
+                case 2:
+                    QUIZ = colorCursor.getInt(2);
+                    break;
+                case 3:
+                    PS = colorCursor.getInt(2);
+                    break;
+                case 4:
+                    VIVA = colorCursor.getInt(2);
+                    break;
+                case 5:
+                    DS = colorCursor.getInt(2);
+                    break;
+                case 6:
+                    TMA = colorCursor.getInt(2);
+                    break;
+                case 7:
+                    CAT = colorCursor.getInt(2);
+                    break;
+                case 8:
+                    FINAL = colorCursor.getInt(2);
+                    break;
+            }
+
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -665,7 +756,15 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
             }
         }, 2000);
 
+    }
 
+    public void checkNotificationSetting(String type) {
+        cursor = databaseHelper.getSetting(1);
+        if (cursor.moveToFirst()){
+            if (cursor.getInt(0) == 1 && cursor.getInt(2) == 1) {
+                addNotification(type);
+            }
+        }
     }
 
     public void addNotification(String type) {
@@ -679,7 +778,13 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         String formattedTime = timeFormat.format(currentDate);
 
-        String notificationDate = (datePart[0]+" "+datePart[1]+" "+datePart[2]+" at "+datePart[3]);
+        String notificationDate;
+        if (timeStamp == null) {
+            notificationDate = null;
+        } else {
+            String[] datePart = timeStamp.toString().split(" ");
+            notificationDate = (datePart[0]+" "+datePart[1]+" "+datePart[2]+" at "+datePart[3]);
+        }
         String notificationEndDate;
         if (endTime == null) {
             notificationEndDate = null;
@@ -692,35 +797,22 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
             isAdded = databaseHelper.addNotification(formattedDate, formattedTime, "unread", (courseCode+" - "+activity+" Added"),
                     ("\nDate : "+notificationDate+"\nEndTime : "+notificationEndDate+"\nNote : "+note));
             if (isAdded) {
-                sendNotification("New Activity Added", "New "+courseCode+" Activity added to activity diary");
+                sendNotification("New Activity Added", "New "+courseCode+" Activity added to Activity Diary");
             }
         } else if (type.equals("MODIFIED")) {
             isAdded = databaseHelper.addNotification(formattedDate, formattedTime, "unread", (courseCode+" - "+activity+" Modified"),
                     ("\nDate : "+notificationDate+"\nEndTime : "+notificationEndDate+"\nNote : "+note));
             if (isAdded) {
-                sendNotification("Activity Updated","Updated "+courseCode+" Activity of activity diary");
+                sendNotification("Activity Updated","Updated "+courseCode+" Activity on Activity Diary");
             }
         } else if (type.equals("REMOVED")) {
             isAdded = databaseHelper.addNotification(formattedDate, formattedTime, "unread", (courseCode+" - "+activity+" Deleted"),
                     ("\nDate : "+notificationDate+"\nEndTime : "+notificationEndDate+"\nNote : "+note));
             if (isAdded) {
-                sendNotification("Activity Removed","Remove "+courseCode+" Activity from activity diary");
+                sendNotification("Activity Removed","Remove "+courseCode+" Activity from Activity Diary");
             }
         }
 
-//        if (isAdded) {
-//            ////////////////////////// SEND NOTIFICATION ////////////////////////////
-//
-//            Cursor cursor = databaseHelper.getSetting(1);
-//            if (cursor.moveToNext()) {
-//                if (cursor.getInt(2) == 1) {
-//                    sendNotification("Your order is under progress...");
-//                }
-//            }
-//            cursor.close();
-//
-//        }
-        //////////////////////////////////////////////////////////////////////////////
     }
 
     ////////////////////////// SEND NOTIFICATION ////////////////////////////
@@ -734,22 +826,22 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
             NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
 
             // Register the channel with the system
-            NotificationManager notificationManager = requireContext().getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), "ouslsmartactivitydiary")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "ouslsmartactivitydiary")
                 .setSmallIcon(R.drawable.ic_final_2)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Set a large icon for the notification
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.round_logo);
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.round_logo);
         builder.setLargeIcon(largeIcon);
 
         int notificationId = 123;
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(notificationId, builder.build());
 
     }
@@ -776,6 +868,8 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        this.context = context;
 
         try {
             onNotificationCountListener = (OnNotificationCountListener) getContext();

@@ -1,18 +1,22 @@
 package com.ouslsmartactivitydiary;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CalendarViewHolder extends RecyclerView.ViewHolder {
 
-    ImageView activityIcon, calendarIcon;
+    ImageView activityIcon;
+    AppCompatImageView calendarIcon;
     TextView courseCode, activityName, date, day;
     CardView cardView;
+    Drawable iconDrawable;
 
     public CalendarViewHolder(@NonNull View itemView) {
         super(itemView);

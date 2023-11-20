@@ -18,7 +18,8 @@
         app:contentInsetStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/notification_menu">
 
 
         <ImageView
@@ -46,6 +47,35 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/optionMenu"
+        android:background="@drawable/curved_background_all"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="start"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:elevation="5dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myActionBar">
+
+        <TextView
+            android:id="@+id/clearProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:text="Clear Profile"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -184,7 +214,7 @@
                                     android:scaleType="centerCrop"
                                     android:text="-    "
                                     android:textSize="16dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="normal"
                                     android:visibility="visible" />
 
                                 <EditText
@@ -244,7 +274,7 @@
                                     android:scaleType="centerCrop"
                                     android:text="-    "
                                     android:textSize="16dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="normal"
                                     android:visibility="visible" />
 
                                 <EditText
@@ -304,7 +334,7 @@
                                     android:scaleType="centerCrop"
                                     android:text="-    "
                                     android:textSize="16dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="normal"
                                     android:visibility="visible" />
 
                                 <EditText
@@ -363,7 +393,7 @@
                                     android:scaleType="centerCrop"
                                     android:text="-    "
                                     android:textSize="16dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="normal"
                                     android:visibility="visible" />
 
                                 <EditText
@@ -387,10 +417,11 @@
                             android:layout_marginTop="10dp"
                             android:background="@color/Theme"
                             android:gravity="fill"
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:padding="0dp">
 
                             <LinearLayout
+                                android:id="@+id/programmeLinear"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginBottom="1dp"
@@ -421,7 +452,7 @@
                                     android:scaleType="centerCrop"
                                     android:text="-    "
                                     android:textSize="16dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="normal"
                                     android:visibility="visible" />
 
                                 <EditText
@@ -431,12 +462,22 @@
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginTop="0dp"
                                     android:gravity="end"
-                                    android:hint="Enter degree programme"
+                                    android:hint="Select your degree programme"
                                     android:textSize="16dp"
                                     android:visibility="gone" />
 
-
                             </LinearLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerCourseDialogProgrammes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="0dp"
+                                android:paddingEnd="5dp"
+                                android:visibility="gone"
+                                android:background="@drawable/curved_background_all"
+                                android:maxHeight="500dp"/>
+
                         </LinearLayout>
 
                         <!-- txtCenter -->
@@ -480,7 +521,7 @@
                                     android:scaleType="centerCrop"
                                     android:text="-    "
                                     android:textSize="16dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="normal"
                                     android:visibility="visible" />
 
                                 <EditText
@@ -541,7 +582,7 @@
                                     android:scaleType="centerCrop"
                                     android:text="-    "
                                     android:textSize="16dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="normal"
                                     android:visibility="visible" />
 
                                 <EditText
@@ -601,7 +642,7 @@
                                     android:scaleType="centerCrop"
                                     android:text="-    "
                                     android:textSize="16dp"
-                                    android:textStyle="bold"
+                                    android:textStyle="normal"
                                     android:visibility="visible" />
 
                                 <EditText

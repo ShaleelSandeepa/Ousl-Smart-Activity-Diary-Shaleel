@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,11 +14,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,12 +47,15 @@ public class NotificationActivity extends AppCompatActivity implements MyCalenda
     Cursor cursor, data;
     DatabaseHelper databaseHelper;
     int accountID;
-    Button readAll, deleteAll;
-    LinearLayout noCourseLinear;
+
+    View optionLayout;
+    TextView markAllAsRead, deleteAll;
+    LinearLayout noCourseLinear, optionMenu;
     AlertDialog.Builder alertDialog;
 //    MyViewModel myViewModelNotification;
 
     private ImageView backIcon;
+
     private AppCompatTextView textView;
     private Toolbar actionBar;
 
@@ -71,6 +77,108 @@ public class NotificationActivity extends AppCompatActivity implements MyCalenda
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        //create option badge
+        optionLayout = getLayoutInflater().inflate(R.layout.option_layout, null);
+        optionMenu = findViewById(R.id.optionMenu);
+        optionMenu.setVisibility(View.GONE);
+        optionMenu.bringToFront();
+
+        markAllAsRead = findViewById(R.id.markAllAsRead);
+        deleteAll = findViewById(R.id.deleteAll);
+
+        // Find the menu item you want to add the badge to
+        MenuItem optionMenuItem = actionBar.getMenu().findItem(R.id.action_option);
+
+        // Set the badge as the action view for the menu item
+        optionMenuItem.setActionView(optionLayout);
+        optionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (optionMenu.getVisibility() == View.VISIBLE) {
+                    optionMenu.setVisibility(View.GONE);
+                } else {
+                    optionMenu.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+        markAllAsRead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                optionMenu.setVisibility(View.GONE);
+
+                if (notificationList.size() == 0) {
+                    Toast.makeText(NotificationActivity.this, "Notifications empty !", Toast.LENGTH_SHORT).show();
+                } else {
+                    alertDialog = new AlertDialog.Builder(NotificationActivity.this);
+                    alertDialog.setTitle("Mark all as Read");
+                    alertDialog.setMessage("Do you want to mark all as read?");
+
+                    //When click "Yes" it will execute this
+                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            int i = 0;
+                            while (i < notificationList.size()) {
+                                databaseHelper.updateNotificationState(notificationList.get(i).getNotificationID(), "read");
+                                i++;
+                            }
+                            if (i == notificationList.size()) {
+                                Toast.makeText(NotificationActivity.this, "Marked all As Read", Toast.LENGTH_SHORT).show();
+                                initializeContent();
+                            }
+                        }
+                    });
+
+                    //When click "No" it will execute this
+                    alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+
+            }
+        });
+        deleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionMenu.setVisibility(View.GONE);
+
+                if (notificationList.size() == 0) {
+                    Toast.makeText(NotificationActivity.this, "Notifications empty !", Toast.LENGTH_SHORT).show();
+                } else {
+                    alertDialog = new AlertDialog.Builder(NotificationActivity.this);
+                    alertDialog.setTitle("Delete All Notifications");
+                    alertDialog.setMessage("Do you want to delete all notifications ?");
+
+                    //When click "Yes" it will execute this
+                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            databaseHelper.deleteAllNotifications();
+                            Toast.makeText(NotificationActivity.this, "All notifications deleted", Toast.LENGTH_SHORT).show();
+                            initializeContent();
+                        }
+                    });
+
+                    //When click "No" it will execute this
+                    alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+
             }
         });
 
@@ -118,31 +226,14 @@ public class NotificationActivity extends AppCompatActivity implements MyCalenda
             public void onItemClick(ItemNotification position, int index, String clickType) {
 
                 if (clickType.equals("delete")) {
-//                    Intent intent = getIntent();
-//                    finish(); // Finish the current instance of the activity
-//                    startActivity(intent); // Start a new instance of the activity
                     initializeContent();
-//                    getNotifications();
-//                    notificationList.remove(index);
-//                    notificationAdapter.notifyDataSetChanged();
                 }
 
                 //when read the notification it will refresh badge count from executing this codes
                 if (clickType.equals("itemView")) {
-//                    Cursor data = databaseHelper.getAllNotifications();
-//                    if (data.moveToLast()) {
-//                        int unread = 0;
-//                        do {
-//                            if (data.getString(3).equals("unread")) {
-//                                unread++;
-//                            }
-//                        } while (data.moveToPrevious());
-//                        //send the count of unread notifications to home activity via view model
-//                        myViewModelNotification = new ViewModelProvider(NotificationActivity.this).get(MyViewModel.class);
-//                        myViewModelNotification.setNotificationCount(unread);
-//                    }
                     onNotificationCount();
                 }
+
             }
         });
 

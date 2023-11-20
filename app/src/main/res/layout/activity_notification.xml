@@ -10,6 +10,7 @@
     tools:context=".activity.NotificationActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notificationConstraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/LightGray">
@@ -24,7 +25,8 @@
             app:contentInsetStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/notification_menu">
 
             <ImageView
                 android:id="@+id/backIcon"
@@ -52,6 +54,47 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <LinearLayout
+            android:id="@+id/optionMenu"
+            android:background="@drawable/curved_background_all"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:elevation="5dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myActionBar">
+
+            <TextView
+                android:id="@+id/markAllAsRead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:text="Mark all as read"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/deleteAll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:text="Delete all"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerNotification"
             android:layout_width="match_parent"
@@ -64,6 +107,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/myActionBar"
             app:layout_constraintVertical_bias="0.0" />
+
 
         <LinearLayout
             android:id="@+id/noCourseLinear"

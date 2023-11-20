@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/courseItemCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
+        android:minHeight="50dp"
+        app:layout_columnWeight="1"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:gravity="start"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:gravity="start"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp"
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/appearanceIcon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_ds_2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/appearanceName"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:text="DS"
+                    android:textSize="16dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
