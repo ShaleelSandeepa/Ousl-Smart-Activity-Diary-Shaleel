@@ -9,8 +9,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
@@ -23,18 +21,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.ouslsmartactivitydiary.MyFirebaseMessagingService;
-import com.ouslsmartactivitydiary.MyViewModel;
+import com.ouslsmartactivitydiary.data.MyFirebaseMessagingService;
 import com.ouslsmartactivitydiary.R;
-import com.ouslsmartactivitydiary.StaffActivity;
 import com.ouslsmartactivitydiary.ViewPagerAdapter;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 import com.ouslsmartactivitydiary.fragment.MyCalendarFragment;

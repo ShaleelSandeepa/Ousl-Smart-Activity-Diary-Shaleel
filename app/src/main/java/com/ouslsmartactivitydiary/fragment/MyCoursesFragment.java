@@ -1,7 +1,6 @@
 package com.ouslsmartactivitydiary.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,29 +17,20 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ouslsmartactivitydiary.AddNewCourse;
-import com.ouslsmartactivitydiary.CalendarDialog;
-import com.ouslsmartactivitydiary.CalendarItem;
+import com.ouslsmartactivitydiary.dialog.AddNewCourse;
 import com.ouslsmartactivitydiary.CourseAdapter;
-import com.ouslsmartactivitydiary.CourseItem;
+import com.ouslsmartactivitydiary.item.CourseItem;
 import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class MyCoursesFragment extends Fragment implements AddNewCourse.OnDismissListener {
 

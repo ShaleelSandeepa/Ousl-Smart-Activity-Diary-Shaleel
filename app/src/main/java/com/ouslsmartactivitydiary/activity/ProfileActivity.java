@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,7 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ouslsmartactivitydiary.CourseAdapter;
-import com.ouslsmartactivitydiary.CourseItem;
+import com.ouslsmartactivitydiary.item.CourseItem;
 import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 

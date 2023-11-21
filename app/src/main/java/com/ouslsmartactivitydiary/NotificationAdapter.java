@@ -13,24 +13,24 @@ import android.view.animation.AnimationUtils;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
+import com.ouslsmartactivitydiary.item.NotificationItem;
 
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHolder> {
 
     Context context;
-    List<ItemNotification> notificationList;
+    List<NotificationItem> notificationList;
     OnNotificationClickListener onNotificationClickListener;
     DatabaseHelper databaseHelper;
     Cursor cursor;
     AlertDialog.Builder alertDialog;
     int accountID;
 
-    public NotificationAdapter(Context context, List<ItemNotification> notificationList, OnNotificationClickListener onNotificationClickListener) {
+    public NotificationAdapter(Context context, List<NotificationItem> notificationList, OnNotificationClickListener onNotificationClickListener) {
         this.context = context;
         this.notificationList = notificationList;
         this.onNotificationClickListener = onNotificationClickListener;
@@ -102,6 +102,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHo
     }
 
     public interface OnNotificationClickListener {
-        void onItemClick(ItemNotification position, int index, String clickType);
+        void onItemClick(NotificationItem position, int index, String clickType);
     }
 }

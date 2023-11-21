@@ -1,11 +1,11 @@
-package com.ouslsmartactivitydiary;
+package com.ouslsmartactivitydiary.item;
 
-public class ItemNotification {
+public class NotificationItem {
 
     int notificationID, notificationColor;
     String notificationTopic, notificationDetails, notificationDate, notificationTime, notificationState;
 
-    public ItemNotification(int notificationID, String notificationTopic, String notificationDetails, String notificationDate, String notificationTime) {
+    public NotificationItem(int notificationID, String notificationTopic, String notificationDetails, String notificationDate, String notificationTime) {
         this.notificationID = notificationID;
         this.notificationTopic = notificationTopic;
         this.notificationDetails = notificationDetails;

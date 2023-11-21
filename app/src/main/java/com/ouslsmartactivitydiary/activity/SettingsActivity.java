@@ -9,7 +9,6 @@ import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -19,9 +18,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.transition.AutoTransition;
 import android.transition.ChangeTransform;
-import android.transition.Fade;
 import android.transition.TransitionManager;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -31,14 +28,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.ouslsmartactivitydiary.AppearanceAdapter;
-import com.ouslsmartactivitydiary.AppearanceDialog;
-import com.ouslsmartactivitydiary.AppearanceItem;
-import com.ouslsmartactivitydiary.CalendarDialog;
-import com.ouslsmartactivitydiary.CourseAdapter;
-import com.ouslsmartactivitydiary.CourseItem;
+import com.ouslsmartactivitydiary.dialog.AppearanceDialog;
+import com.ouslsmartactivitydiary.item.AppearanceItem;
 import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 

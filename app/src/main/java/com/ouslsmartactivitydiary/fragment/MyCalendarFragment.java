@@ -18,8 +18,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -30,7 +28,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,17 +42,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ouslsmartactivitydiary.CalendarAdapter;
-import com.ouslsmartactivitydiary.CalendarDialog;
+import com.ouslsmartactivitydiary.dialog.CalendarDialog;
 import com.ouslsmartactivitydiary.CalendarIconAdapter;
-import com.ouslsmartactivitydiary.CalendarItem;
-import com.ouslsmartactivitydiary.ItemNotification;
+import com.ouslsmartactivitydiary.item.CalendarItem;
 import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -63,7 +57,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class MyCalendarFragment extends Fragment implements CalendarAdapter.AdapterCallback {
 
@@ -99,6 +92,7 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
     boolean isReddyToUpdate = false;
     boolean courseFound = false;
     boolean isFirstRun = true;
+    boolean isFirstAdd = true;
     int changes, snapshotCount;
     String type;
 
@@ -319,8 +313,9 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
                                     }
 
                                     // add activity only if not fount in the Array list, but in the firebase
-                                    if (!isFound && changes == 1){
+                                    if (!isFound && changes == 1 && isFirstAdd){
                                         isRefreshed = false;
+                                        isFirstAdd = false;
                                         addList(documentChange);
                                         changes++;
                                         type = "ADDED";
@@ -333,6 +328,7 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
                                     for (int i=0; i<activityItemList.size(); i++) {
                                         if (activityItemList.get(i).getId().equals(documentChange.getDocument().getId())){
                                             activityItemList.remove(i);
+                                            fetchDataFromDocument(documentChange);
                                             changes++;
                                             type = "REMOVED";
                                             break;
@@ -356,8 +352,8 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
                         calendarAdapter.notifyDataSetChanged();
 
                         if (isFirstRun) {
-                            checkType();
                             isFirstRun = false;  // Set the flag to false so that the method won't be called again
+                            checkType();
                         }
                     }
                 });
@@ -373,6 +369,7 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
             @Override
             public void run() {
                 isFirstRun = true;
+                isFirstAdd = true;
             }
         }, 5000);
     }

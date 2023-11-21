@@ -1,4 +1,4 @@
-package com.ouslsmartactivitydiary;
+package com.ouslsmartactivitydiary.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -11,10 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +21,9 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.ouslsmartactivitydiary.AppearanceAdapter;
+import com.ouslsmartactivitydiary.item.AppearanceItem;
+import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 
 import java.util.ArrayList;

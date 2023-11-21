@@ -1,4 +1,4 @@
-package com.ouslsmartactivitydiary;
+package com.ouslsmartactivitydiary.item;
 
 import java.util.Date;
 

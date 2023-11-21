@@ -20,7 +20,7 @@
         android:theme="@style/Theme.OUSLSmartActivityDiary"
         tools:targetApi="31">
         <activity
-            android:name=".StaffActivity"
+            android:name=".activity.StaffActivity"
             android:exported="false" />
         <activity
             android:name=".activity.NotificationActivity"
@@ -51,7 +51,7 @@
         </activity>
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".data.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -1,7 +1,7 @@
 package com.ouslsmartactivitydiary;
 
-import static com.ouslsmartactivitydiary.AppearanceItem.APPEARANCE;
-import static com.ouslsmartactivitydiary.AppearanceItem.COLOR;
+import static com.ouslsmartactivitydiary.item.AppearanceItem.APPEARANCE;
+import static com.ouslsmartactivitydiary.item.AppearanceItem.COLOR;
 
 
 import android.annotation.SuppressLint;
@@ -18,6 +18,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
+import com.ouslsmartactivitydiary.item.AppearanceItem;
 
 import java.util.List;
 

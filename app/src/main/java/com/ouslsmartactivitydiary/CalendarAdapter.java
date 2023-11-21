@@ -1,28 +1,29 @@
 package com.ouslsmartactivitydiary;
 
-import static com.ouslsmartactivitydiary.CalendarItem.ACTIVITIES;
-import static com.ouslsmartactivitydiary.CalendarItem.CALENDAR;
-import static com.ouslsmartactivitydiary.CalendarItem.COURSE_WISE;
+import static com.ouslsmartactivitydiary.item.CalendarItem.ACTIVITIES;
+import static com.ouslsmartactivitydiary.item.CalendarItem.CALENDAR;
+import static com.ouslsmartactivitydiary.item.CalendarItem.COURSE_WISE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.Timestamp;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
+import com.ouslsmartactivitydiary.item.CalendarItem;
+import com.ouslsmartactivitydiary.item.CourseItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -188,32 +189,31 @@ public class CalendarAdapter extends RecyclerView.Adapter {
                 });
 
                 // set blinking animation for ongoing activities
-                if (calendarItems.get(position).getEndTime() != null && position == 0) {
-                    runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            currentDate = new Date();
-                            isHandlerRunning = true;
+                if (calendarItems.get(position).getEndTime() != null && position == 0 && !isHandlerRunning) {
+                    currentDate = new Date();
+                    isHandlerRunning = true;
 
-                            if (calendarItems.get(position).getTimeStamp().compareTo(currentDate) <= 0 &&
-                                    calendarItems.get(position).getEndTime().compareTo(currentDate) >= 0) {
-                                if (!blinkAnimation.hasStarted()) {
-                                    ((CalendarViewHolder) holder).itemView.startAnimation(blinkAnimation);
-                                    callback.onRefresh(1);
-                                }
-                            } else {
-                                if (blinkAnimation.hasStarted()) {
-                                    ((CalendarViewHolder) holder).itemView.clearAnimation();
-                                    handler.removeCallbacksAndMessages(null);
-                                    isHandlerRunning = false;
-                                    callback.onRefresh(2);
-                                }
+                    if (calendarItems.get(position).getTimeStamp().compareTo(currentDate) <= 0 &&
+                            calendarItems.get(position).getEndTime().compareTo(currentDate) >= 0) {
+                        String ongoing = (calendarItems.get(position).getCourseCode()+"\n"+
+                                calendarItems.get(position).getActivityName()+"\n\nis Now Happening...");
+//                        Toast.makeText(context, ongoing, Toast.LENGTH_SHORT).show();
+
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                        alertDialog.setTitle("Ongoing Activity !");
+                        alertDialog.setMessage(ongoing);
+
+                        //When click "Yes" it will execute this
+                        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
                             }
-                            handler.postDelayed(this, 2000); // Repeat the check every 2.2 second
-                        }
-                    };
-                    handler.post(runnable);
+                        });
+                        alertDialog.show();
+                    }
                 }
+
                 break;
             case COURSE_WISE:
                 sortList(calendarItems);

@@ -2,13 +2,11 @@ package com.ouslsmartactivitydiary.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,16 +33,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ouslsmartactivitydiary.CalendarAdapter;
-import com.ouslsmartactivitydiary.CalendarDialog;
-import com.ouslsmartactivitydiary.CalendarItem;
+import com.ouslsmartactivitydiary.dialog.CalendarDialog;
+import com.ouslsmartactivitydiary.item.CalendarItem;
 import com.ouslsmartactivitydiary.CourseAdapter;
-import com.ouslsmartactivitydiary.CourseItem;
+import com.ouslsmartactivitydiary.item.CourseItem;
 import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -121,8 +117,6 @@ public class CourseWiseFragment extends Fragment {
         recyclerAddedCourseLoad.setVisibility(View.GONE);
         courseItemList = new ArrayList<>();
         activityItemList = new ArrayList<>();
-
-        ListView listView = rootView.findViewById(R.id.listView);
 
         editTextCourse = rootView.findViewById(R.id.editTextCourse);
         editTextCourse.setText("");

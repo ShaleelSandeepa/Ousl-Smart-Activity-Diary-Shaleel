@@ -1,26 +1,20 @@
 package com.ouslsmartactivitydiary;
 
-import static com.ouslsmartactivitydiary.CalendarItem.ACTIVITIES;
-import static com.ouslsmartactivitydiary.CalendarItem.CALENDAR;
-import static com.ouslsmartactivitydiary.CalendarItem.MONDAY;
-import static com.ouslsmartactivitydiary.CalendarItem.TUESDAY;
-import static com.ouslsmartactivitydiary.CalendarItem.WEDNESDAY;
-import static com.ouslsmartactivitydiary.CalendarItem.THURSDAY;
-import static com.ouslsmartactivitydiary.CalendarItem.FRIDAY;
-import static com.ouslsmartactivitydiary.CalendarItem.SATURDAY;
-import static com.ouslsmartactivitydiary.CalendarItem.SUNDAY;
+import static com.ouslsmartactivitydiary.item.CalendarItem.CALENDAR;
+import static com.ouslsmartactivitydiary.item.CalendarItem.MONDAY;
+import static com.ouslsmartactivitydiary.item.CalendarItem.TUESDAY;
+import static com.ouslsmartactivitydiary.item.CalendarItem.WEDNESDAY;
+import static com.ouslsmartactivitydiary.item.CalendarItem.THURSDAY;
+import static com.ouslsmartactivitydiary.item.CalendarItem.FRIDAY;
+import static com.ouslsmartactivitydiary.item.CalendarItem.SATURDAY;
+import static com.ouslsmartactivitydiary.item.CalendarItem.SUNDAY;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -28,15 +22,9 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
+import com.ouslsmartactivitydiary.item.CalendarItem;
 
-import java.security.spec.PSSParameterSpec;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 // we use different adapter because we have to render details same time in one fragment
 public class CalendarIconAdapter extends RecyclerView.Adapter {

@@ -1,4 +1,4 @@
-package com.ouslsmartactivitydiary;
+package com.ouslsmartactivitydiary.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -33,6 +33,9 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ouslsmartactivitydiary.CourseAdapter;
+import com.ouslsmartactivitydiary.item.CourseItem;
+import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 
 import java.util.ArrayList;

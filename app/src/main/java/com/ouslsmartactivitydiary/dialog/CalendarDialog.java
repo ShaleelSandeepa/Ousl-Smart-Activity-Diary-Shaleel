@@ -1,4 +1,4 @@
-package com.ouslsmartactivitydiary;
+package com.ouslsmartactivitydiary.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.ouslsmartactivitydiary.item.CalendarItem;
+import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 
 import java.util.Date;
@@ -28,7 +30,7 @@ public class CalendarDialog extends AppCompatDialogFragment {
 
     int LAB, QUIZ, PS, VIVA, DS, TMA, CAT, FINAL;
     DatabaseHelper databaseHelper;
-    Cursor colorCursor;
+    Cursor colorCursor, cursor;
 
     public CalendarDialog(CalendarItem position){
         this.position = position;
@@ -46,6 +48,7 @@ public class CalendarDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_calender_dialog, null);
 
+
         courseCode = view.findViewById(R.id.dialogCourseCode);
         courseName = view.findViewById(R.id.dialogCourseName);
         activityName = view.findViewById(R.id.dialogActivityName);
@@ -55,8 +58,15 @@ public class CalendarDialog extends AppCompatDialogFragment {
 
         courseCode.setText(position.getCourseCode());
         courseCode.setTextColor(getResources().getColor(R.color.white));
-        courseName.setText(position.getCourseCode());
+
+        cursor = databaseHelper.getCourseByCourseCode(position.getCourseCode());
+        if (cursor.moveToFirst()) {
+            courseName.setText(cursor.getString(2));
+        } else {
+            courseName.setText(position.getCourseCode());
+        }
         courseName.setTextColor(getResources().getColor(R.color.white));
+
         activityName.setText(position.getActivityName());
         activityName.setTextColor(getResources().getColor(R.color.white));
         note.setText(position.getNote());

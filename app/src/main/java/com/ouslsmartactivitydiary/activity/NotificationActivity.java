@@ -1,19 +1,15 @@
 package com.ouslsmartactivitydiary.activity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,14 +18,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ouslsmartactivitydiary.ItemNotification;
-import com.ouslsmartactivitydiary.MyViewModel;
+import com.ouslsmartactivitydiary.item.NotificationItem;
 import com.ouslsmartactivitydiary.NotificationAdapter;
 import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
@@ -41,7 +35,7 @@ import java.util.List;
 public class NotificationActivity extends AppCompatActivity implements MyCalendarFragment.OnNotificationCountListener {
 
     RecyclerView recyclerViewNotification;
-    List<ItemNotification> notificationList;
+    List<NotificationItem> notificationList;
     NotificationAdapter notificationAdapter;
 
     Cursor cursor, data;
@@ -223,7 +217,7 @@ public class NotificationActivity extends AppCompatActivity implements MyCalenda
 
         notificationAdapter = new NotificationAdapter(this, notificationList, new NotificationAdapter.OnNotificationClickListener() {
             @Override
-            public void onItemClick(ItemNotification position, int index, String clickType) {
+            public void onItemClick(NotificationItem position, int index, String clickType) {
 
                 if (clickType.equals("delete")) {
                     initializeContent();
@@ -256,7 +250,7 @@ public class NotificationActivity extends AppCompatActivity implements MyCalenda
             int unread = 0;
             do {
                 //add notifications to the recycler view
-                notificationList.add(new ItemNotification(cursor.getInt(0), cursor.getString(4), cursor.getString(5),
+                notificationList.add(new NotificationItem(cursor.getInt(0), cursor.getString(4), cursor.getString(5),
                         cursor.getString(1), cursor.getString(2)));
                 if (cursor.getString(3).equals("unread")) {
                     unread++;

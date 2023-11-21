@@ -1,4 +1,4 @@
-package com.ouslsmartactivitydiary;
+package com.ouslsmartactivitydiary.data;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -15,6 +15,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.ouslsmartactivitydiary.R;
 import com.ouslsmartactivitydiary.activity.DashboardActivity;
 import com.ouslsmartactivitydiary.data.DatabaseHelper;
 import com.ouslsmartactivitydiary.fragment.MyCalendarFragment;

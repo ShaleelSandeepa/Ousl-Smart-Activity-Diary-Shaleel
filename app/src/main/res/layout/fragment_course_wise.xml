@@ -46,13 +46,6 @@
                 android:visibility="gone"
                 android:maxHeight="100dp"/>
 
-            <ListView
-                android:id="@+id/listView"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/editTextCourse"/>
-
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView

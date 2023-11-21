@@ -1,28 +1,22 @@
 package com.ouslsmartactivitydiary;
 
-import static com.ouslsmartactivitydiary.CourseItem.COURSE;
-import static com.ouslsmartactivitydiary.CourseItem.DIALOG_COURSE;
-import static com.ouslsmartactivitydiary.CourseItem.PROGRAMME;
-import static com.ouslsmartactivitydiary.CourseItem.LEVEL;
+import static com.ouslsmartactivitydiary.item.CourseItem.COURSE;
+import static com.ouslsmartactivitydiary.item.CourseItem.DIALOG_COURSE;
+import static com.ouslsmartactivitydiary.item.CourseItem.PROGRAMME;
+import static com.ouslsmartactivitydiary.item.CourseItem.LEVEL;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ouslsmartactivitydiary.CalendarItem;
-import com.ouslsmartactivitydiary.CalendarViewHolder;
-import com.ouslsmartactivitydiary.CourseItem;
-import com.ouslsmartactivitydiary.CourseViewHolder;
-import com.ouslsmartactivitydiary.R;
+import com.ouslsmartactivitydiary.item.CourseItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter {
