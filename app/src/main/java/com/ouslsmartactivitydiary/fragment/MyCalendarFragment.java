@@ -309,6 +309,7 @@ public class MyCalendarFragment extends Fragment implements CalendarAdapter.Adap
                                         isFound = true;
                                         updateList(documentChange, i);
                                         changes++;
+                                        fetchDataFromDocument(documentChange);
                                         type = "MODIFIED";
                                     }
 

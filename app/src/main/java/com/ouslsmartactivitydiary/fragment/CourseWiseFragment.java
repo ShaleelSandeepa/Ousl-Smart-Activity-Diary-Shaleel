@@ -141,6 +141,12 @@ public class CourseWiseFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
+                    cursor = databaseHelper.getAllCourses();
+                    if (cursor.getCount() == 0) {
+                        noCourseLinear.setVisibility(View.VISIBLE);
+                    } else {
+                        noCourseLinear.setVisibility(View.GONE);
+                    }
                     // The cursor is now active
                     courseItemList.clear();
                     activityItemList.clear();
